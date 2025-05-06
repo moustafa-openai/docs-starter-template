@@ -192,6 +192,11 @@ async function concatenateMDXDocs(sourceDir: string) {
     try {
       projectDescription = await fs.readFile(descriptionPath, "utf-8");
     } catch (error) {
+      console.error(
+        `Error reading project-description.md: ${
+          error instanceof Error ? error?.message : error
+        }`
+      );
       console.warn(
         `Could not find project-description.md at ${descriptionPath}. ` +
           `Falling back to the default description.`
