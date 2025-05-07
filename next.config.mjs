@@ -116,6 +116,5 @@ const withNextra = nextra({
 
 
 export default withNextra({
-
   trailingSlash: false,
 })
