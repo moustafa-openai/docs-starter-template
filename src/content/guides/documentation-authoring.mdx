@@ -1,0 +1,99 @@
+---
+title: "Documentation Authoring"
+description: "Write, organise and publish MDX pages using Nextra."
+---
+
+import { Callout } from "nextra/components";
+
+# Documentation Authoring
+
+<Callout type="info">
+  If you prefer a deep-dive, open `deep-wiki/MARKDOWN_AUTHORING_GUIDE.md`. The
+  following is an opinionated **cheat-sheet** that covers 80&nbsp;% of
+  day-to-day cases.
+</Callout>
+
+---
+
+## File location
+
+• All docs live in **`deep-wiki/src/content/`**.  
+• Folders and filenames map 1-to-1 to the URL.
+
+```text
+src/content/
+└─ guides/
+   └─ quickstart.mdx  → /guides/quickstart
+```
+
+---
+
+## Front-matter template
+
+```mdx
+---
+title: "My Page Title"
+description: "One-sentence meta description (max ~160 chars)."
+---
+```
+
+`title` and `description` are **mandatory** – the CI fails otherwise.
+
+Optional extras:
+
+| Key            | What it does                              |
+| -------------- | ----------------------------------------- |
+| `sidebarTitle` | Short label in the sidebar                |
+| `toc`          | `false` hides the table of contents       |
+| `asIndexPage`  | Marks the file as the folder landing page |
+
+---
+
+## Update the sidebar (`_meta.ts`)
+
+Each folder has its own `_meta.ts` – update or create it:
+
+```ts
+const meta = {
+  index: "Overview",
+  quickstart: "Quickstart",
+  "documentation-authoring": "Documentation Authoring",
+};
+
+export default meta;
+```
+
+Not in the list? → Nextra will show the page **alphabetically at the bottom**.
+
+---
+
+## Built-in components
+
+| Component | Use-case                  | Example                              |
+| --------- | ------------------------- | ------------------------------------ |
+| `Callout` | Tips, warnings            | `<Callout type="tip">…</Callout>`    |
+| `Steps`   | Multi-step walkthroughs   | `<Steps>### One … ### Two …</Steps>` |
+| `Tabs`    | Code in npm / pnpm / yarn | `npm2yarn`                           |
+
+All components are tree-shaken by Next.js and add **zero client-side JS** unless needed.
+
+---
+
+## Preview locally
+
+```bash
+pnpm dev            # http://localhost:3000/docs
+```
+
+Hot re-load applies to both code **and** docs.
+
+---
+
+## Pull request checklist
+
+1. CI passes (`pnpm lint && pnpm build`).
+2. Exactly one `# H1` per file, no orphan `###` headings.
+3. No lines > 120&nbsp;chars outside code blocks.
+4. Every new page added to `_meta.ts`.
+
+Happy writing! ✨

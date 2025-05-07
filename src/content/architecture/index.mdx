@@ -1,0 +1,69 @@
+---
+title: "System Architecture"
+description: "A high-level overview of how the front-end, API routes and third-party services fit together."
+---
+
+import { Mermaid, Callout } from 'nextra/components'
+
+# System Architecture
+
+The project consists of **three main layers**:
+
+1. **Front-end** – a Next.js App Router application rendered on the edge.
+2. **API routes** – collocated inside <code>app/api/*</code>, exposing server-less endpoints.
+3. **Third-party services** – OpenAI, Vercel KV and Pagefind for search.
+
+---
+
+## Component diagram
+
+<Mermaid chart={`flowchart LR
+    subgraph Client
+        A[Browser] -- HTTP --> B[Next.js App]
+    end
+    subgraph Serverless
+        B --> C[API Route – /api/chat]
+        B --> D[API Route – /api/image]
+        B --> E[API Route – /api/articles/*]
+    end
+    subgraph OpenAI
+        F[(Chat Completion)]
+        G[(Embeddings)]
+        H[(TTS)]
+    end
+    C -- Web-Stream --> F
+    D --> H
+    E --> G
+    style A fill:#46f488,color:#fff
+    style B fill:#d06bee,color:#fff
+    style C fill:#fa7b6a,color:#fff
+    style D fill:#fa7b6a,color:#fff
+    style E fill:#fa7b6a,color:#fff
+    style F fill:#000,color:#46f488
+    style G fill:#000,color:#46f488
+    style H fill:#000,color:#46f488
+`} />
+
+---
+
+## Data flow (user asks a question in the chat widget)
+
+1. **Message mutation** – The React chat widget POSTs the message to **`/api/chat`**.
+2. **Tool-enabled streaming** – The API route uses <code>@ai-sdk/openai</code> to stream chunks back.
+3. **UI hydration** – The front-end consumes the stream with Server Sent Events and updates the UI in real time.
+
+---
+
+<Callout type="tip">The entire round-trip is <strong>edge-optimised</strong> – everything happens close to the user for low latency.</Callout>
+
+---
+
+## Where to look next
+
+| Path                       | What you will find                              |
+| -------------------------- | ----------------------------------------------- |
+| <code>app/api/chat/</code>         | Streaming AI completions with tools         |
+| <code>app/api/articles/*</code>    | Vector store ingest & search               |
+| <code>components/chat/</code>      | Front-end chat widget with tool rendering  |
+
+This should give you enough pointers to dive into the code with confidence.

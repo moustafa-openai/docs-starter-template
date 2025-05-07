@@ -1,0 +1,85 @@
+---
+title: "Quickstart"
+description: "Zero-to-running in less than five minutes."
+---
+
+import { Steps, Callout } from "nextra/components";
+
+# Quickstart
+
+These instructions assume **macOS / Linux**.  
+Windows users can follow the same steps inside **WSL&nbsp;2**.
+
+---
+
+## 1&nbsp;· Clone & install dependencies
+
+```bash
+git clone <your-fork-url>
+cd <project-root>
+pnpm install
+```
+
+---
+
+## 2&nbsp;· Environment variables
+
+```bash
+cp .env.example .env
+# then open .env and fill in the missing secrets
+```
+
+At minimum you will need valid **OpenAI** keys if you intend to test the AI features locally.
+
+---
+
+## 3&nbsp;· Start the dev server
+
+```bash
+pnpm dev
+```
+
+Output should end with something like:
+
+```text
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+```
+
+• **Main app:** [http://localhost:3000](http://localhost:3000)  
+• **Docs site:** [http://localhost:3000/docs](http://localhost:3000/docs)
+
+<Callout type="tip">
+  Both apps run in the same Next.js instance – there is no need to launch two
+  separate processes.
+</Callout>
+
+---
+
+## 4&nbsp;· Common dev commands
+
+| Command      | Purpose                             |
+| ------------ | ----------------------------------- |
+| `pnpm dev`   | Hot-reloading development server    |
+| `pnpm build` | Production build (app **and** docs) |
+| `pnpm lint`  | TypeScript, ESLint & MDX checks     |
+| `pnpm test`  | Jest / vitest (if present)          |
+
+---
+
+## 5&nbsp;· Next steps
+
+<Steps>
+### Play with components
+Open <code>components/</code> and tweak something – the browser auto reloads.
+
+### Explore the API routes
+
+Visit `/api/iss` in the browser – you should see live JSON from the International Space Station.
+
+### Add a new documentation page
+
+Follow the **Documentation Authoring** guide → create `src/content/my-page.mdx` → refresh `/docs`.
+
+</Steps>
+
+You are now set! 🚀
