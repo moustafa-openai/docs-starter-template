@@ -1,0 +1,97 @@
+---
+title: "API"
+description: "HTTP endpoints exposed under /api with example requests and responses."
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# API Reference
+
+All backend functionality is delivered through **Next.js API Routes** under `/api/*`. Each route runs in a **serverless environment** (Edge Runtime where possible) and can therefore be called from any HTTP client.
+
+Authentication is handled via bearer tokens where required; public routes (e.g. ISS position) need none.
+
+---
+
+## Index
+
+|   Method   | Route                         | Description                                                  |
+| :--------: | ----------------------------- | ------------------------------------------------------------ |
+|    GET     | `/api/iss`                    | Real-time International Space Station position.              |
+|    POST    | `/api/chat`                   | Streaming AI chat completions with **tool calling** enabled. |
+|    POST    | `/api/image`                  | Generates an image using the OpenAI Images API.              |
+|    GET     | `/api/articles/ingest`        | Embed & store the sample articles in the vector DB.          |
+|    GET     | `/api/articles/search?query=` | Semantic search across the vector DB.                        |
+|    POST    | `/api/moderate`               | Content moderation – flags rude / offensive comments.        |
+| GET / POST | `/api/podcast`                | Text-to-Speech (TTS) – returns an MP3 / WAV audio stream.    |
+|    GET     | `/api/session`                | Creates an ephemeral OpenAI **real-time** session token.     |
+
+---
+
+## Examples
+
+### 1. Chat
+
+<Tabs items={["cURL", "JavaScript (fetch)"]}>
+  <div>
+    ```bash
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -d '{
+            "messages": [
+              {"role": "user", "content": "Give me a TL;DR of the latest news"}
+        ]}' \
+      http://localhost:3000/api/chat
+    ```
+    The endpoint returns a **Server-Sent Event** (SSE) stream. Read it chunk-by-chunk for real-time updates.
+    ```
+    data: {"id":"chatcmpl…","choices":[{"delta":{"content":"Sure!"}}]}
+    ```
+  </div>
+  <div>
+    ```ts
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages }),
+    });
+    // Create a reader for the ReadableStream and process chunks
+    const reader = res.body?.getReader();
+    // …
+    ```
+  </div>
+</Tabs>
+
+---
+
+### 2. Article search
+
+```bash
+curl "http://localhost:3000/api/articles/search?query=typescript%203.5"
+```
+
+Response (truncated):
+
+```json
+[
+  {
+    "id": "getting-started-with-ts",
+    "score": 0.92,
+    "title": "Getting started with TypeScript 3.5"
+  }
+]
+```
+
+---
+
+## Versioning
+
+The API is **currently experimental** – expect breaking changes while the project is <span style={{fontWeight:600}}>0.x</span>.  
+Pin your client to a specific commit hash if stability is critical.
+
+---
+
+<Callout type="warning">
+  Never expose your **OpenAI API key** in client-side code – always call the
+  serverless routes instead.
+</Callout>

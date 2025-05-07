@@ -1,0 +1,65 @@
+---
+title: "Components"
+description: "Catalogue of reusable React components available in the project."
+---
+
+import { Callout, Tabs } from "nextra/components";
+
+# Components
+
+The <code>components/</code> directory gathers reusable UI building blocks ranging from simple **buttons** to fully-fledged **charts** and **chat widgets**. They are written in **TypeScript**, follow the [Radix UI accessibility](https://www.radix-ui.com/) guidelines and ship with zero client-side CSS by default thanks to Tailwind CSS.
+
+<Callout type="info">
+  Below is a curated list of the most frequently used components. For the full
+  source open the corresponding file in your editor.
+</Callout>
+
+| Name                  | Path                               | Purpose                                                   |
+| --------------------- | ---------------------------------- | --------------------------------------------------------- |
+| **Button**            | `components/ui/button.tsx`         | Base button with variants (`primary`, `ghost`, …)         |
+| **Card**              | `components/ui/card.tsx`           | Wrapper with shadow, border & padding                     |
+| **Accordion**         | `components/ui/accordion.tsx`      | Collapse / expand sections                                |
+| **Chart**             | `components/charts/*`              | Thin wrappers around [visx](https://airbnb.io/visx/) & D3 |
+| **Chat Widget**       | `components/chat/chat-widget.tsx`  | Streaming AI chat with tool calls                         |
+| **Solar Panel Scene** | `components/solar-panel/scene.tsx` | 3D canvas demo powered by Three.js                        |
+
+---
+
+## Usage example
+
+<Tabs items={["tsx"]}>
+  <div>
+    ```tsx filename="app/example/page.tsx"
+    import { Button } from '@/components/ui/button'
+
+    export default function Example() {
+      return (
+        <Button variant="primary" onClick={() => alert('Hello!')}>
+          Click me
+        </Button>
+      )
+    }
+    ```
+
+  </div>
+</Tabs>
+
+---
+
+## Customising
+
+Every component exposes a **Tailwind `className` prop** so you can extend or override styles inline:
+
+```tsx
+<Card className="bg-sky-50 dark:bg-sky-900" />
+```
+
+If you need a brand-new component follow this checklist:
+
+1. Create the file inside `components/` (or a sub-folder).
+2. Write it in **TypeScript** – insist on explicit props.
+3. Add a **Storybook story** (if present) or screenshot to help reviewers.
+
+---
+
+Happy building! 🔨

@@ -1,0 +1,59 @@
+---
+title: "Contributing"
+description: "Guidelines for reporting issues, adding new features or improving the documentation."
+---
+
+import { Callout } from 'nextra/components'
+
+# Contributing
+
+We :heart: contributions! Whether it is a **bug report**, a **new feature** or an improvement to the **documentation**, your help makes the project better for everyone.
+
+---
+
+## 1&nbsp;· Find something to work on
+
+1. Browse the **Issues** tab and filter by the `good first issue` or `documentation` labels.
+2. Join the discussion to avoid duplicate work.
+
+<Callout type="tip">If you are unsure, open a **Draft PR** early – reviewers can then give feedback as you iterate.</Callout>
+
+---
+
+## 2&nbsp;· Fork & create a branch
+
+```bash
+git checkout -b feat/my-awesome-thing
+```
+
+Use **present-tense imperative** commit messages – e.g. _"Add solar panel power graph"_.
+
+---
+
+## 3&nbsp;· Run the checks locally
+
+```bash
+pnpm lint   # ESLint, TypeScript & MDX
+pnpm test   # unit tests (if any)
+pnpm build  # type errors & static site build
+```
+
+The CI pipeline runs the same commands – make them pass locally to save round-trips.
+
+---
+
+## 4&nbsp;· Open the pull request
+
+The PR template will ask you to confirm:
+
+• The code builds.  
+• New docs include front-matter.  
+• Screenshots / GIFs for UI changes are attached.
+
+Reviewers strive to respond within **48&nbsp;hours**. Feel free to ping after that.
+
+---
+
+## 5&nbsp;· Celebrate 🎉
+
+Your changes will land in `main` once approvals are in and checks are green. Thank you for investing your time!
